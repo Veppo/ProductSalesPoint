@@ -1,0 +1,120 @@
+﻿@page
+@model ProductSalesPoint.Pages.SaleList.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h2 class="text-info">Register New Sale</h2>
+<br />
+
+<div class="border">
+    <form method="Post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="container" style="padding: 30px;">
+            <div class="row">
+                <div class="form-group col-sm-5">
+                    <div class="col-sm">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                @Html.DisplayName("Total Amount:")
+                            </div>
+                            <div class="col-sm-6 form-control">
+                                @{
+                                    double paramTotalValue = ViewBag.TotalValue;
+                                }
+                                @Html.DisplayFor(m => paramTotalValue)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm" style="padding-top: 10px;">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <p>Payment Method:</p>
+                            </div>
+                            <select class="col-sm-6 form-control" data-val="true" data-val-required="The Payment Method field is required."
+                                    id="Sale_PaymentId" name="Sale.PaymentId">
+                                @foreach (var item in ViewBag.PaymentMethods)
+                                {
+                                    <option value="@item.Value">
+                                        @item.Text
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4 offset-sm-1">
+                                <input type="submit" value="Register" class="btn btn-primary form-control" />
+                            </div>
+                            <div class="col-sm-4">
+                                <a asp-page="../SaleItemList/Index" class="btn btn-success form-control">Back to List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-7">
+                    
+                    @if (ViewBag.SaleItens != null)
+                    {
+                        <table class="table table-striped border">
+                            <tr class="table-secondary">
+                                <th>
+                                    @Html.DisplayNameFor(m => m.Sale.Products.FirstOrDefault().Product.Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(m => m.Sale.Products.FirstOrDefault().Product.Price)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Item Quantity")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Item Total Price")
+                                </th>
+                            </tr>
+                            @foreach (var item in ViewBag.SaleItens)
+                            {
+                        <tr>
+                            <td>
+                                @{
+                                    string paramValueName = item.Product.Name;
+                                }
+                                @Html.DisplayFor(m => paramValueName)
+                            </td>
+                            <td>
+                                @{
+                                    double paramValuePrice = item.Product.Price;
+                                }
+                                @Html.DisplayFor(m => paramValuePrice)
+                            </td>
+                            <td>
+                                @{
+                                    int paramValueQuantity = item.Quantity;
+                                }
+                                @Html.DisplayFor(m => paramValueQuantity)
+                            </td>
+                            <td>
+                                @{
+                                    double parameterValue = item.TotalPrice();
+                                }
+                                @Html.DisplayFor(m => parameterValue)
+                            </td>
+                        </tr>
+                            }
+                        </table>
+                    }
+                    else
+                    {
+                        <br /><br />
+                        <p>No Product registered</p>
+                    }
+                </div>
+            </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

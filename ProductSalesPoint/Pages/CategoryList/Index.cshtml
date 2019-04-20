@@ -1,0 +1,68 @@
+﻿@page
+@model ProductSalesPoint.Pages.CategoryList.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+
+<div class="container row">
+    <div class="col-6">
+        <h2 class="text-info">Category List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-page="Create" class="btn btn-sm btn-primary">Create New Category</a>
+    </div>
+</div>
+
+@if(Model.Message != null)
+{
+    <div class="alert-info alert alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aira-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}
+
+<form method="post">
+    @if (Model.Categories.Count() > 0)
+    {
+        <br /><br />
+
+        <table class="table table-striped border">
+            <tr class="table-secondary">
+                <th>
+                    @Html.DisplayNameFor(m => m.Categories.FirstOrDefault().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Categories.FirstOrDefault().Description)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Categories)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Description)
+                    </td>
+                    <td>
+                        <button asp-page-handler="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Do you really wanna delete that Category?')">
+                            Delete
+                        </button>
+                        <a asp-route-id="@item.Id" asp-page="Edit" class="btn btn-success btn-sm">Edit</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <br /><br />
+        <p>No categories registered</p>
+    }
+</form>
