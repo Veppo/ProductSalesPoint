@@ -3,8 +3,11 @@
 This project was created with:
 
 -> C#
+
 -> ASP.NET Core v.2.2
+
 -> Razor Design
+
 
 Database: The database is InMemory (https://docs.microsoft.com/pt-br/ef/core/miscellaneous/testing/in-memory)
 
